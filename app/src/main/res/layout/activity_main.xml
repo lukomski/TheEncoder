@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="left"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/chooseViewTextID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose the cipher"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.032" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:id="@+id/radioGroupID"
+            android:layout_width="354dp"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/vigenereRadButID"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/vigenereRadButID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:onClick="vigenereRadButClickEvent"
+                android:text="Vigenere"
+                android:textColor="#000000"
+                app:layout_constraintEnd_toStartOf="@+id/autokeyRadButID"
+                app:layout_constraintHorizontal_bias="0.41"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseViewTextID" />
+
+            <RadioButton
+                android:id="@+id/autokeyRadButID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:onClick="autokeyRadButClickEvent"
+                android:text="Autokey"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toTopOf="@+id/enterTextViewID2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseViewTextID" />
+
+            <RadioButton
+                android:id="@+id/playfairRadButID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:onClick="playfairRadButClickEvent"
+                android:text="Playfair"
+                android:textColor="#000000"
+                app:layout_constraintBottom_toTopOf="@+id/enterTextViewID2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.94"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseViewTextID"
+                app:layout_constraintVertical_bias="0.0" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/enterTextViewID2"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="20dp"
+        android:text="Enter the text you want to code or decode:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autokeyRadButID" />
+
+    <EditText
+        android:id="@+id/inputEditTextID"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="Place the plaintext/encoded text here"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterTextViewID2" />
+
+    <TextView
+        android:id="@+id/enterTextViewID"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        android:text="Enter the key:"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputEditTextID" />
+
+    <EditText
+        android:id="@+id/inputEditKeyID"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:layout_gravity="center"
+        android:hint="Place the key here"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterTextViewID" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/encrBtnID"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:onClick="encrypteClickEvent"
+            android:text="encrypte"
+            android:textColor="#000000"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/decrBtnID"
+            app:layout_constraintHorizontal_bias="0.036"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputEditKeyID"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/decrBtnID"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:onClick="decrypteClickEvent"
+            android:text="decrypte"
+            android:textColor="#000000"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/encrBtnID"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inputEditKeyID"
+            app:layout_constraintVertical_bias="0.0" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/outEditTextID"
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+</LinearLayout>
