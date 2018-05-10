@@ -1,20 +1,13 @@
-package com.example.jan.theencoder;
 
 public class AutokeyCipher implements Cipher {
 
-	private boolean isBigLetter( char c ){
-		return c  >= 'A' && c <= 'Z';
-	}
-    private boolean isSmallLetter( char c ){
-        return c  >= 'a' && c <= 'z';
-    }
     private char encryptChar( char messChar, char keyChar)
     {
         char gap = 'z' - 'Z';
-        boolean small = isSmallLetter(messChar);
+        boolean small = Character.isLowerCase(messChar);
 
-        if (isSmallLetter(messChar)) messChar -= gap;
-        if (isSmallLetter(keyChar)) keyChar -= gap;
+        if (Character.isLowerCase(messChar)) messChar -= gap;
+        if (Character.isLowerCase(keyChar)) keyChar -= gap;
         char result = (char) (messChar + keyChar);
 
         result = (char) ((result % 26) + 'A');
@@ -22,121 +15,84 @@ public class AutokeyCipher implements Cipher {
 
         return result;
     }
-    private boolean isKeyCorrect( String key ){
-        for(int i = 0; i < key.length(); i++)
-            if (!isBigLetter(key.charAt(i)) && !isSmallLetter(key.charAt(i))) {
-                return false;
-            }
-        return true;
+
+    private char decryptChar( char messChar, char keyChar)
+    {
+        char gap = 'z' - 'Z';
+        boolean small = Character.isLowerCase(messChar);
+
+        if (Character.isLowerCase(messChar)) messChar -= gap;
+        if (Character.isLowerCase(keyChar)) keyChar -= gap;
+        int result = (messChar - keyChar);
+        if (result < 0) result += 26;
+        result += 'A';
+        if (small) result += gap;
+
+        return (char)(result);
     }
 
 
-    public String encrypt(String message, String key)
-    {
-        // checking correctness of input
-        if( !isKeyCorrect( key ) ){
-            return "The key is not correct. Note it can not contain any character other than letters of English alphabet.";
-        }
+	public String encrypt(String message, String key)
+	{
+	    // checking correctness of input
+		if(badKey(key))
+			return "Please enter the correct key";
 
         // data structure
-        StringBuilder em = new StringBuilder(); // encrypted message
-        StringBuilder gk = new StringBuilder(); // generated key
-        int keyIterator = 0;
+		StringBuilder encryptedMessage = new StringBuilder(); // encrypted message
+		StringBuilder generatedKey = new StringBuilder(); // encrypted message
 
-        // encrypte
-        for(int i = 0; i < message.length(); i++) {
+        generatedKey.append(key);
+        for (int i = 0; i < message.length(); i++)
+            if (Character.isLetter(message.charAt(i)))
+                generatedKey.append(message.charAt(i));
 
-            // handle non-letter characters. It do not encrypte it.
-            if( !isSmallLetter(message.charAt(i)) && !isBigLetter(message.charAt(i))){
-                em.append(message.charAt(i));
-                continue;
-            }
+	    int keyIterator = 0;
+        char letter;
 
-            char a;
-            if (keyIterator < key.length()) {
-                a = encryptChar( message.charAt(i), key.charAt(keyIterator));
-            } else {
-                a = encryptChar (message.charAt(i),gk.toString().charAt(keyIterator - key.length()));
-            }
-            em.append(a);
-            gk.append(a);
-            keyIterator++;
-        }
-        return em.toString();
-    }
-	private char getLetterFromString(int i, String s){
-	    int c = 0;
-	    for( int j=0; j< s.length(); j++ ){
-	        if(isSmallLetter(s.charAt(j)) || isBigLetter(s.charAt(j)) ) {
-	            c++;
-            }
-            if(c == i){
-	            return s.charAt(j);
-            }
-        }
-        return '*';
-    }
-    private int letterToNumber( char c ){
-        return isBigLetter( c )? c - 'A' : c - 'a';
-    }
-	private char decryptChar( char cipherChar, char keyChar ){
-        char a = (char) (cipherChar - letterToNumber(keyChar) );
+	    // encrypt
+		for(int i = 0; i < message.length(); i++) {
 
-        if( ( isSmallLetter( cipherChar ) && !isSmallLetter( a ) )
-                || ( isBigLetter( cipherChar ) && !isBigLetter( a ) ) ){
-            a += 'z' - 'a' + 1;
-        }
-        return a;
-    }
+		    // handle non-letter characters. It does not encrypt it.
+	        if(!Character.isLetter(message.charAt(i))) {
+	            encryptedMessage.append(message.charAt(i));
+	            continue; }
 
-    private String removeWhiteCharacters( String s ){
-	    StringBuilder sb = new StringBuilder();
-	    for(int i = 0; i < s.length(); i++) {
-	        if( isSmallLetter(s.charAt(i)) || isBigLetter(s.charAt(i))){
-	            sb.append(s.charAt(i));
-            }
-        }
-        return sb.toString();
-    }
+            letter = encryptChar(message.charAt(i), generatedKey.charAt(keyIterator));
+	        keyIterator++;
 
-	public String decrypt(String cipherText, String key)
+			encryptedMessage.append(letter);
+		}
+		return encryptedMessage.toString();
+	}
+
+
+	public String decrypt(String message, String key)
 	{
+		if(badKey(key))
+			return "Please enter the correct key";
 
-        String sCipherText = removeWhiteCharacters(cipherText); // squeezed cipherText
+		StringBuilder decryptedMessage = new StringBuilder(); // decrypted message
+		StringBuilder generatedKey = new StringBuilder(); // autokey
+        generatedKey.append(key);
 
-        StringBuilder mes = new StringBuilder();
-        int it;
-        int itKey = 0;
+        int keyIterator = 0;
+        char letter;
 
-        // decrypte using basic key
-        String sKey = removeWhiteCharacters(key); // squeezed Key
-        for( it = 0; itKey < key.length() && it < cipherText.length(); it++){
+		for(int i = 0; i < message.length(); i++) {
 
-            // handle white characters
-            if( !isBigLetter(cipherText.charAt(it)) && !isSmallLetter(cipherText.charAt(it)) ) {
-                mes.append(cipherText.charAt(it));
-                continue;
-            }
-            char mesChar = decryptChar( cipherText.charAt(it), sKey.charAt(itKey++));
-            mes.append(mesChar);
+            if(!Character.isLetter(message.charAt(i))) {
+                decryptedMessage.append(message.charAt(i));
+                continue; }
+
+            letter = decryptChar(message.charAt(i), generatedKey.charAt(keyIterator));
+            keyIterator++;
+
+            decryptedMessage.append(letter);
+            generatedKey.append(letter);
         }
 
-
-        // decrypte using autoKey
-        itKey = 0;
-        sKey = removeWhiteCharacters(cipherText); // squeezed cipherText as a Key
-        for( ; it < cipherText.length(); it++){
-
-            // handle white characters
-            if( !isBigLetter(cipherText.charAt(it)) && !isSmallLetter(cipherText.charAt(it)) ) {
-                mes.append(cipherText.charAt(it));
-                continue;
-            }
-
-            char mesChar = decryptChar( cipherText.charAt(it), sKey.charAt(itKey++));
-            mes.append(mesChar);
-        }
-        return mes.toString();
+		return decryptedMessage.toString();
 	}
 
 }
