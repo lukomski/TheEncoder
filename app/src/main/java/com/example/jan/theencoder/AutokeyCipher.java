@@ -1,3 +1,4 @@
+package com.example.jan.theencoder;
 
 public class AutokeyCipher implements Cipher {
 

@@ -1,3 +1,5 @@
+package com.example.jan.theencoder;
+
 public class VigenereCipher implements Cipher {
 
     public String encrypt(String message, String key)

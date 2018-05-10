@@ -1,3 +1,5 @@
+package com.example.jan.theencoder;
+
 public class PlayfairCipher implements Cipher {
 	
 	private void createPlayfairMatrix (String key, char matrix [][]) {

@@ -1,3 +1,5 @@
+package com.example.jan.theencoder;
+
 public interface Cipher {
 	 String encrypt(String message, String key);
 	 String decrypt(String cipherText, String key);
