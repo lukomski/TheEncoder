@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // encypte/decrypte events
-    public void encrypteClickEvent(View v){
+    public void encrypteClickEvent( View v ){
         if(inputEditKey.getText().toString().length() != 0) {
             outTextView.setText(currentCipher.encrypt(inputEditText.getText().toString(), inputEditKey.getText().toString()));
             outTextView.setEnabled(true);

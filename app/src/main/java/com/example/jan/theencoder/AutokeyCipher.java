@@ -2,6 +2,9 @@ package com.example.jan.theencoder;
 
 public class AutokeyCipher implements Cipher {
 
+    private boolean isEnglishLetter( char letter ){
+        return (letter >= 'A' && letter <='Z') || (letter>='a' && letter <='z');
+    }
     private char encryptChar( char messChar, char keyChar)
     {
         char gap = 'z' - 'Z';
@@ -45,7 +48,7 @@ public class AutokeyCipher implements Cipher {
 
         generatedKey.append(key);
         for (int i = 0; i < message.length(); i++)
-            if (Character.isLetter(message.charAt(i)))
+            if (isEnglishLetter(message.charAt(i)))
                 generatedKey.append(message.charAt(i));
 
 	    int keyIterator = 0;
@@ -55,7 +58,7 @@ public class AutokeyCipher implements Cipher {
 		for(int i = 0; i < message.length(); i++) {
 
 		    // handle non-letter characters. It does not encrypt it.
-	        if(!Character.isLetter(message.charAt(i))) {
+	        if(!isEnglishLetter(message.charAt(i))) {
 	            encryptedMessage.append(message.charAt(i));
 	            continue; }
 
@@ -82,7 +85,7 @@ public class AutokeyCipher implements Cipher {
 
 		for(int i = 0; i < message.length(); i++) {
 
-            if(!Character.isLetter(message.charAt(i))) {
+            if(!isEnglishLetter(message.charAt(i))) {
                 decryptedMessage.append(message.charAt(i));
                 continue; }
 

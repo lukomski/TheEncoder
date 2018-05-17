@@ -13,7 +13,7 @@ public class VigenereCipher implements Cipher {
         for (int i = 0, j = 0; i < message.length(); i++)
         {
             char letter = message.charAt(i);
-            if (Character.isLetter(letter)){
+            if ((letter >= 'A' && letter <='Z') || (letter>='a' && letter <='z')){
                 if(Character.isUpperCase(letter)) {
                     result += (char) ((letter + key.toUpperCase().charAt(j) - 2 * 'A') % 26 + 'A');
 
@@ -41,7 +41,7 @@ public class VigenereCipher implements Cipher {
         for(int i = 0, j = 0; i < cipherText.length(); i++){
             
             letter = cipherText.charAt(i);
-            if (Character.isLetter(letter)){
+            if ((letter >= 'A' && letter <='Z') || (letter>='a' && letter <='z')){
                 if(Character.isUpperCase(letter)) {
                     result.append((char)('Z'-(25-(letter-key.toUpperCase().charAt(j)))%26));
 
